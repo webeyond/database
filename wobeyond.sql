@@ -145,7 +145,7 @@ ALTER TABLE BUSI_ORDER COMMENT '支付订单表';
 CREATE TABLE PROD
 (
    PROD_ID              INT NOT NULL AUTO_INCREMENT COMMENT '产品ID',
-   PROD_TYPE            INT COMMENT '产品类别',
+   PROD_TYPE            VARCHAR(50) COMMENT '产品类别',
    PROD_NAME            VARCHAR(50) COMMENT '产品名称',
    COMBO_FEE            DECIMAL(10,2) COMMENT '套餐月费',
    PROMISE_TIME         INT COMMENT '承诺在网时长',
