@@ -104,7 +104,8 @@ CREATE TABLE Account
    DEPARTMENT           VARCHAR(50) COMMENT '部门',
    CHANNEL              VARCHAR(50) COMMENT '渠道名称',
    ROLE                 VARCHAR(50) COMMENT '角色',
-   passwd		VARCHAR(50) COMMENT '密码',
+   passwd		            VARCHAR(50) COMMENT '密码',
+   pic		              VARCHAR(5000) COMMENT '照片',
    PRIMARY KEY (OPERATORID)
 );
 ALTER TABLE Account COMMENT '后台用户员表';
