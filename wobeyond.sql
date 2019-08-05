@@ -228,3 +228,33 @@ CREATE TABLE order_send
 
 ALTER TABLE order_send COMMENT '配送订单表';
 
+/*==============================================================*/
+/* View: district_count   各区数量的视图：获取近10个月的签约数量   */
+/*==============================================================*/
+CREATE  VIEW `district_count` AS
+
+SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'1' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 9))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'2' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 8))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'3' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 7))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'4' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 6))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'5' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 5))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'6' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 4))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'7' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 3))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'8' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 2))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'9' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (PERIOD_DIFF(DATE_FORMAT(NOW(),'%Y%m'),DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m')) = 1))
+GROUP BY `b`.`DISTRICT` UNION ALL SELECT `b`.`DISTRICT` AS `district`,COUNT(0) AS `counts`,'10' AS `months` FROM (`busi_order` `a` JOIN `account` `b`)
+WHERE ((`a`.`OPER_ID` = `b`.`OPERATORID`) AND (`a`.`pay_flag` = 1) AND (DATE_FORMAT(`a`.`BUSI_ORDER_DATE`,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')))
+GROUP BY `b`.`DISTRICT` ;
+
+
+-- 把时间在原基础增加10个月，为了统计“时间环比销售分析”看起来更好看
+UPDATE busi_order c SET c.BUSI_ORDER_DATE = DATE_ADD(c.BUSI_ORDER_DATE, INTERVAL 10 MONTH) ;
